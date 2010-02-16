@@ -4,9 +4,23 @@ class Turtle
     
     Turtle()
     {
-        X = height/2;
-        Y = width/2;
+        X = width/2;
+        Y = height/2;
         angle = 0;
+    }
+
+    Turtle(float startX, float startY)
+    {
+        X = startX;
+        Y = startY;
+        angle = 0;
+    }
+
+    void moveTo(float newX, float newY, float newAngle)
+    {
+        X = newX;
+        Y = newY;
+        angle = newAngle;
     }
 
     void forward(float distance)
@@ -37,8 +51,8 @@ class Turtle
 
     void jumpb(float distance)
     {
-        float newX = X + distance*cos(radians(angle));
-        float newY = Y + distance*sin(radians(angle));
+        float newX = X - distance*cos(radians(angle));
+        float newY = Y - distance*sin(radians(angle));
         X = newX;
         Y = newY;        
     }
@@ -57,6 +71,7 @@ class Turtle
     void execute(String steps)
     {
         String step;
+        println(steps);
         Scanner sc = new Scanner(steps);
         while(sc.hasNext()) {
             step = sc.next();
