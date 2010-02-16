@@ -30,12 +30,18 @@ class Lsystem
 
     void render()
     {
+        Turtle t = new Turtle();
+        renderWith(t);
+    }
+
+    void renderWith(Turtle turtle)
+    {
         Scanner sc = new Scanner(axiom);
-        turtle = new Turtle();
 
         while (sc.hasNext()) {
             String function = (String)alphabet.get(sc.next());
             turtle.execute(function);
         }
+        
     }
 }
