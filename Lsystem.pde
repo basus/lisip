@@ -40,7 +40,8 @@ class Lsystem
 
         while (sc.hasNext()) {
             String function = (String)alphabet.get(sc.next());
-            turtle.execute(function);
+            if (function != null)
+                turtle.execute(function);
         }
         
     }
