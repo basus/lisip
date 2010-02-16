@@ -6,7 +6,7 @@ String axiom;
 
 void setup()
 {
-    size(800,800);
+    size(6000,1000);
     smooth();
     generations = 10;
     done = 0;
@@ -14,7 +14,7 @@ void setup()
 
 void draw()
 {
-    Sierpinski();
+    Penrose();
 }
 
 void Cantor()
@@ -91,5 +91,38 @@ void Sierpinski()
             float newStart = height*(done/generations);
             turtle.moveTo(done*10, newStart, 0.0);
         }
+    }
+}
+
+void Penrose()
+{
+    rules = new HashMap();
+
+    rules.put("1", "");
+    rules.put("6","8 1 + + 9 1 − − − − 7 1 [ − 8 1 − − − − 6 1 ] + +");
+    rules.put("7","+ 8 1 − − 9 1 [ − − − 6 1 − − 7 1 ] +");
+    rules.put("8", "− 6 1 + + 7 1 [ + + + 8 1 + + 9 1 ] −");
+    rules.put("9","− − 8 1 +  + + + 6 1 [ + 9 1 + + + + 7 1 ] − − 7 1");
+
+    alpha = new HashMap();
+
+    alpha.put("1", "forward 20");
+    alpha.put("+", "left 36");
+    alpha.put("-", "right 36");
+    alpha.put("[","push");
+    alpha.put("]", "pop");
+
+    axiom = "[ 7 ] + + [ 7 ] + + [ 7 ] + + [ 7 ] + + [ 7 ]";
+
+    turtle = new Turtle(400,height/2);
+    lsys = new Lsystem(alpha, rules, axiom);
+
+    while(done<generations) {
+        lsys.generate();
+        lsys.renderWith(turtle);
+        save("penrose"+done+".png");
+        done++;
+        turtle.moveTo((done*done*100), height/2,0.0);
+        println(done);
     }
 }
