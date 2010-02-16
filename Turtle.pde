@@ -1,12 +1,18 @@
 class Turtle
 {
     float X, Y, angle;
+    ArrayList posX, posY, posAngle;
+    int positions;
     
     Turtle()
     {
         X = width/2;
         Y = height/2;
         angle = 0;
+        posX = new ArrayList();
+        posY = new ArrayList();
+        posAngle = new ArrayList();
+        positions = -1;
     }
 
     Turtle(float startX, float startY)
@@ -14,6 +20,10 @@ class Turtle
         X = startX;
         Y = startY;
         angle = 0;
+        posX = new ArrayList();
+        posY = new ArrayList();
+        posAngle = new ArrayList();
+        positions = -1;
     }
 
     void moveTo(float newX, float newY, float newAngle)
@@ -68,10 +78,25 @@ class Turtle
         angle -= difference;
     }
 
+    void push()
+    {
+        posX.add(X);
+        posY.add(Y);
+        posAngle.add(angle);
+        positions++;
+    }
+
+    void pop()
+    {
+        X = (Float)posX.remove(positions);
+        Y = (Float)posY.remove(positions);
+        angle = (Float)posAngle.remove(positions);
+        positions--;
+    }
+
     void execute(String steps)
     {
         String step;
-        println(steps);
         Scanner sc = new Scanner(steps);
         while(sc.hasNext()) {
             step = sc.next();
@@ -85,6 +110,12 @@ class Turtle
                 right(sc.nextFloat());
             } else if (step.equals("jumpf")) {
                 jumpf(sc.nextFloat());
+            } else if (step.equals("jumpb")) {
+                jumpb(sc.nextFloat());
+            } else if (step.equals("push")) {
+                push();
+            } else if (step.equals("pop")) {
+                pop();
             }
         }
     }
