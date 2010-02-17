@@ -6,7 +6,9 @@ String axiom;
 
 void setup()
 {
-    size(6000,1000);
+    size(4000,1000);
+    background(0);
+    stroke(255);
     smooth();
     generations = 10;
     done = 0;
@@ -106,7 +108,7 @@ void Penrose()
 
     alpha = new HashMap();
 
-    alpha.put("1", "forward 20");
+    alpha.put("1", "forward 25");
     alpha.put("+", "left 36");
     alpha.put("-", "right 36");
     alpha.put("[","push");
@@ -116,6 +118,7 @@ void Penrose()
 
     turtle = new Turtle(400,height/2);
     lsys = new Lsystem(alpha, rules, axiom);
+    generations = 6;
 
     while(done<generations) {
         lsys.generate();
@@ -123,6 +126,7 @@ void Penrose()
         save("penrose"+done+".png");
         done++;
         turtle.moveTo((done*done*100), height/2,0.0);
+        stroke(255*(1-done/generations),255*(done/generations),255*(1-done/generations));
         println(done);
     }
 }
