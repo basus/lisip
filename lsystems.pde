@@ -1,21 +1,3 @@
-// Copyright 2010 Shrutarshi Basu
-
-//     This file is part of Lisip.
-
-//     Lisip is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
-
-//     Lisip is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
-
-//     You should have received a copy of the GNU General Public License
-//     along with Lisip.  If not, see <http://www.gnu.org/licenses/>.
-
-
 Lsystem lsys;
 Turtle turtle;
 float generations, done;
@@ -28,13 +10,18 @@ void setup()
     background(0);
     stroke(255);
     smooth();
-    generations = 10;
+    generations = 4;
     done = 0;
+
+    Penrose();            // Call L-System setup function
 }
 
 void draw()
 {
-    Penrose();
+    while(done<generations) {
+        PenroseDraw();
+        done++;
+    }
 }
 
 void Cantor()
@@ -53,13 +40,13 @@ void Cantor()
 
     turtle = new Turtle(5, height/2);
     lsys = new Lsystem(alpha, rules, axiom);
-    
-    while(done<generations) {
+}
+
+void CantorDraw()
+{
         lsys.generate();
         lsys.renderWith(turtle);
         turtle.moveTo(5.0, turtle.Y-20, 0.0);
-        done++;
-    }
 }
 
 void KochCurve()
@@ -77,14 +64,14 @@ void KochCurve()
 
     turtle = new Turtle(0, height*.95);
     lsys = new Lsystem(alpha, rules, axiom);
+}
 
-    while(done<generations) {
+void KochCurveDraw()
+{
         lsys.generate();
         lsys.renderWith(turtle);
-        done++;
-        float newStart = height*(1-(done/generations));
+        float newStart = height*(1-((done+1)/generations));
         turtle.moveTo(0.0, newStart, 0.0);
-    }
 }
 
 void Sierpinski()
@@ -103,15 +90,16 @@ void Sierpinski()
     turtle = new Turtle(width/3, 0);
     lsys = new Lsystem(alpha, rules, axiom);
     
-    while(done<generations) {
+}
+
+void SierpinskiDraw()
+{
         lsys.generate();
-        done++;
-        if(done%2 == 0) {
+        if(done%2 == 1) {
             lsys.renderWith(turtle);
-            float newStart = height*(done/generations);
+            float newStart = height*((1+done)/generations);
             turtle.moveTo(done*10, newStart, 0.0);
         }
-    }
 }
 
 void Penrose()
@@ -136,15 +124,15 @@ void Penrose()
 
     turtle = new Turtle(400,height/2);
     lsys = new Lsystem(alpha, rules, axiom);
-    generations = 6;
 
-    while(done<generations) {
-        lsys.generate();
-        lsys.renderWith(turtle);
-        save("penrose"+done+".png");
-        done++;
-        turtle.moveTo((done*done*100), height/2,0.0);
-        stroke(255*(1-done/generations),255*(done/generations),255*(1-done/generations));
-        println(done);
-    }
+}
+
+void PenroseDraw()
+{
+    float next = done + 1;
+    lsys.generate();
+    lsys.renderWith(turtle);
+    save("output/penrose"+next+".png");
+    turtle.moveTo((next*next*100), height/2,0.0);
+    stroke(255*(1-next/generations),255*(next/generations),255*(1-next/generations));
 }
