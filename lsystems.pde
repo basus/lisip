@@ -13,13 +13,13 @@ void setup()
     generations = 12;
     done = 0;
 
-    Levy();            // Call L-System setup function
+    Dragon();            // Call L-System setup function
 }
 
 void draw()
 {
     while(done<generations) {
-        LevyDraw();
+        DragonDraw();
         done++;
     }
 }
@@ -161,4 +161,35 @@ void LevyDraw()
     lsys.renderWith(turtle);
     save("output/levt"+next+".png");
     turtle.moveTo((next*next*50), height*.8, 0.0);
+}
+
+void Dragon()
+{
+    rules = new HashMap();
+
+    rules.put("X", "X + Y F +");
+    rules.put("Y", "- F X - Y");    
+
+    alpha = new HashMap();
+
+    alpha.put("F", "forward 10");
+    alpha.put("-", "left 90");
+    alpha.put("+", "right 90");
+
+    axiom = "F X";
+    
+    turtle = new Turtle(0, 0.7*height);
+    lsys = new Lsystem(alpha,rules,axiom);
+    
+    
+}
+
+void DragonDraw()
+{
+    float next = done +1;
+    lsys.generate();
+    lsys.renderWith(turtle);
+    save("output/dragon"+next+".png");
+    turtle.moveTo((next*next*50), height*.7, 0.0);
+    stroke(255*(next/generations),255*(1-next/generations),186*(next/generations));
 }
