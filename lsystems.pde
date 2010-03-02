@@ -6,20 +6,20 @@ String axiom;
 
 void setup()
 {
-    size(4000,1000);
+    size(7500,800);
     background(0);
     stroke(255);
     smooth();
-    generations = 4;
+    generations = 12;
     done = 0;
 
-    Penrose();            // Call L-System setup function
+    Levy();            // Call L-System setup function
 }
 
 void draw()
 {
     while(done<generations) {
-        PenroseDraw();
+        LevyDraw();
         done++;
     }
 }
@@ -135,4 +135,30 @@ void PenroseDraw()
     save("output/penrose"+next+".png");
     turtle.moveTo((next*next*100), height/2,0.0);
     stroke(255*(1-next/generations),255*(next/generations),255*(1-next/generations));
+}
+
+void Levy()
+{
+    rules = new HashMap();
+    rules.put("F", "+ F - - F +");
+
+    alpha = new HashMap();
+    alpha.put("F","forward 10");
+    alpha.put("+","right 45");
+    alpha.put("-", "left 45");
+
+    axiom = "F";
+
+    turtle = new Turtle(0, 0.8*height);
+    lsys = new Lsystem(alpha,rules,axiom);
+    
+}
+
+void LevyDraw()
+{
+    float next = done +1;
+    lsys.generate();
+    lsys.renderWith(turtle);
+    save("output/levt"+next+".png");
+    turtle.moveTo((next*next*50), height*.8, 0.0);
 }
